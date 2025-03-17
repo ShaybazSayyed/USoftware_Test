@@ -30,19 +30,23 @@ struct CharacterDetailView: View {
                         .frame(width: 200, height: 200)
                         .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 4)
 
-                    AsyncImage(url: URL(string: viewModel.character.image)) { image in
-                        image.resizable()
-                            .scaledToFit()
-                            .frame(width: 180, height: 180)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .scaleEffect(imageLoaded ? 1 : 0.8)
-                            .animation(.spring(response: 0.5, dampingFraction: 0.6), value: imageLoaded)
-                            .onAppear {
-                                imageLoaded = true
-                            }
-                    } placeholder: {
-                        ProgressView()
+                    if #available(iOS 15.0, *) {
+                        AsyncImage(url: URL(string: viewModel.character.image)) { image in
+                            image.resizable()
+                                .scaledToFit()
+                                .frame(width: 180, height: 180)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 3))
+                                .scaleEffect(imageLoaded ? 1 : 0.8)
+                                .animation(.spring(response: 0.5, dampingFraction: 0.6), value: imageLoaded)
+                                .onAppear {
+                                    imageLoaded = true
+                                }
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    } else {
+                        // Fallback on earlier versions
                     }
                 }
 

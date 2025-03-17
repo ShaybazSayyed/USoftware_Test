@@ -1,0 +1,24 @@
+name: iOS CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+
+      - name: Build the project
+        run: |
+          xcodebuild clean build -scheme USoftware_Test -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest'
